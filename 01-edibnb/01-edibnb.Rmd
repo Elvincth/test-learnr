@@ -8,6 +8,8 @@ output:
 runtime: shiny_prerendered
 description: >
   Get started with data frames and data visualisation in R using the tidyverse.
+vlab:
+  mode: "quiz"
 ---
 
 <!-- Add JavaScript code for making the exercise code larger -->
@@ -22,43 +24,27 @@ library(learnr)
 library(gradethis)
 library(tidyverse)
 library(dsbox)
-library(httr) #for http request
-library(readr) #for reading files
-library(V8)# use javascript
 
-
-# Call will just show a promise
-ctx <- V8::v8()
-ctx$source("js/mark.js") # now the variable 'data' is defined in V8
-
-current_path <- rstudioapi::getSourceEditorContext()$path
-#get source file content
-source_str <- read_file(current_path)
-
-a <- ctx$call("getMarkOption", "glimpse-data", source_str)
-
-print(a)
-
-# load packages-----------------------------------------------------------------
-new_recorder <- function(tutorial_id, tutorial_version, user_id, event, data) {
-
-cat("-------event received----\n")
-cat(tutorial_id, " (", tutorial_version, "): ", user_id, ", ", event, "\n", data$label, ", ", data$answers, ", ", data$correct, ",\n", sep = "")
-print (data)
-cat("-------end event ---\n\n-")
-# process data here
-}
-# options(tutorial.event_recorder = new_recorder)
-# options(tutorial.event_recorder = learnr:::debug_event_recorder)
-
+tutorial_path <- rstudioapi::getSourceEditorContext()$path
+metadata <- rmarkdown::yaml_front_matter(tutorial_path)
+learnr::tutorial_options(exercise.reveal_solution = identical(metadata$vlab$mode, "lab"))
 
 # set options for exercises and checking ---------------------------------------
-
+# options(tutorial.event_recorder = new_recorder)
 gradethis_setup()
 
 # hide non-exercise code chunks ------------------------------------------------
 ```
 
+## Test
+
+```{r ex1, exercise=TRUE, eval=FALSE}
+What is 1+1
+```
+
+```{r ex1-solution}
+2
+```
 
 ## Introduction
 
@@ -154,7 +140,7 @@ names(edibnb)
 The variables and their descriptions are given below:
 
 | Variable Name          | Description                                                         |
-|:-----------------------|:--------------------------------------------------------------------|
+| :--------------------- | :------------------------------------------------------------------ |
 | `id`                   | ID number of the listing                                            |
 | `price`                | Price, in GBP, for one night stay                                   |
 | `neighbourhood`        | Neighbourhood listing is located in                                 |
@@ -192,7 +178,7 @@ ggplot(data = edibnb, mapping = aes(x = ___)) +
   )
 ```
 
-```{r price-histogram-solution}
+```{r price-histogram-solution, exercise.reveal_solution = FALSE}
 ggplot(data = edibnb, mapping = aes(x = price)) +
   geom_histogram() +
   labs(
@@ -293,7 +279,7 @@ grade_this_code("You've successfully created a faceted histogram.")
 
 ### What do the warnings mean?
 
-You'll see in the above code that R gives us a couple of *warnings*. Let's analyse these:
+You'll see in the above code that R gives us a couple of _warnings_. Let's analyse these:
 
 #### Binwidth warning
 
@@ -349,10 +335,10 @@ grade_this({
 
 Let's deconstruct this code:
 
--   `ggplot()` is the function we are using to build our plot, in layers.
--   In the first layer we always define the data frame as the first argument. Then, we define the mappings between the variables in the dataset and the **aes**thetics of the plot (e.g. x and y coordinates, colours, etc.).
--   In the next layer we represent the data with **geom**etric shapes, in this case with a histogram. As you've just seen, it's good to try a few options to find a reasonable binwidth.
--   In the final layer we facet the data by neighbourhood.
+- `ggplot()` is the function we are using to build our plot, in layers.
+- In the first layer we always define the data frame as the first argument. Then, we define the mappings between the variables in the dataset and the **aes**thetics of the plot (e.g. x and y coordinates, colours, etc.).
+- In the next layer we represent the data with **geom**etric shapes, in this case with a histogram. As you've just seen, it's good to try a few options to find a reasonable binwidth.
+- In the final layer we facet the data by neighbourhood.
 
 ### Visualising review scores
 

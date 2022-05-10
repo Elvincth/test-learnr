@@ -9,7 +9,7 @@ function getMarkOption(name, str) {
   let options = regex.exec(str);
 
   //not found
-  if (options.length <= 0) {
+  if (!options) {
     return false;
   }
 
@@ -32,4 +32,4 @@ function getMarkOption(name, str) {
   //return options[1];
 }
 
-console.log(getMarkOption("price-shape-quiz-1", str));
+console.log(getMarkOption("price-shfrfrape-quiz-1", str));
