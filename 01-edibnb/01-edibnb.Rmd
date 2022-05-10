@@ -9,7 +9,7 @@ runtime: shiny_prerendered
 description: >
   Get started with data frames and data visualisation in R using the tidyverse.
 vlab:
-  mode: "quiz"
+  mode: 'quiz'
 ---
 
 <!-- Add JavaScript code for making the exercise code larger -->
@@ -36,11 +36,15 @@ gradethis_setup()
 # hide non-exercise code chunks ------------------------------------------------
 ```
 
+
+
 ## Test
 
 ```{r ex1, exercise=TRUE, eval=FALSE}
 What is 1+1
 ```
+
+
 
 ```{r ex1-solution}
 2

@@ -6,7 +6,7 @@ function getMarkOption(name, str) {
   let options = regex.exec(str);
 
   //not found
-  if (options.length <= 0) {
+  if (!options) {
     return false;
   }
 
