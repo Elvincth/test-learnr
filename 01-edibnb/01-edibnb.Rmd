@@ -9,7 +9,7 @@ runtime: shiny_prerendered
 description: >
   Get started with data frames and data visualisation in R using the tidyverse.
 vlab:
-  mode: 'quiz'
+  mode: 'quiz' #quiz or lab
 ---
 
 <!-- Add JavaScript code for making the exercise code larger -->
@@ -25,13 +25,62 @@ library(gradethis)
 library(tidyverse)
 library(dsbox)
 
+  event_register_handler(
+    "session_start",
+    function(session, event, data) {
+      # The observer here needs to be registered at session_start; if it is
+      # called in initialize_tutorial(), then the "section_viewed" event fire
+      # too soon, which will cause errors when it calls get_object(), because
+      # the storage system won't yet be ready.
+      #
+      # This observer watches input$`tutorial-visible-topics`, and wraps it
+      # so that it fires a "section_viewed" event when a new section is added
+      # to that input value.
+      last_visible_topics <- character(0)
+      observe({
+        visible_topics <- session$input$`tutorial-topic`
+        print(session$input$`tutorial-topic`)
+
+        new_visible <- setdiff(visible_topics, last_visible_topics)
+        # 
+        # print(new_visible)
+        # 
+        
+        for (section in new_visible) {
+          learnr:::event_trigger(
+            session,
+            "topic_viewed",
+            data = list(topicId = section)
+          )
+        }
+
+        # Note: `visible_topics` could have more or fewer items from
+        # `last_visible_topics`; the setdiff() above only detects if it has
+        # more. Always save the `visible_topics`.
+        last_visible_topics <<- visible_topics
+      })
+    }
+  )
+
+# print(knitr::knit_hooks$get("tutorial"))
+
 tutorial_path <- rstudioapi::getSourceEditorContext()$path
 metadata <- rmarkdown::yaml_front_matter(tutorial_path)
 learnr::tutorial_options(exercise.reveal_solution = identical(metadata$vlab$mode, "lab"))
 
 # set options for exercises and checking ---------------------------------------
-# options(tutorial.event_recorder = new_recorder)
+
 gradethis_setup()
+
+new_recorder <- function(tutorial_id, tutorial_version, user_id, event, data) {
+  cat("-------event received----\n")
+  cat(tutorial_id, " (", tutorial_version, "): ", user_id, ", ", event, "\n", data$label, ", ", data$answers, ",       ", data$correct, ",\n", sep = "")
+  print (data)
+  cat("-------end event ---\n\n-")
+# process data her
+}
+
+options(tutorial.event_recorder = new_recorder)
 
 # hide non-exercise code chunks ------------------------------------------------
 ```
