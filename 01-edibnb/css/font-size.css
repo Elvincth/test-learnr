@@ -10,9 +10,15 @@ p.caption {
   font-size: 0.6em;
 }
 
+
 .admonition {
+  width: 100%;
   margin-bottom: 0.5rem;
   padding: 1rem;
+}
+
+.admonition p{
+  white-space: pre-line;
 }
 
 .admonition h5 {

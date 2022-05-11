@@ -27,6 +27,7 @@ library(dsbox)
 library(polyuvlab)
 
 
+
 # print(knitr::knit_hooks$get("tutorial"))
 
 # set options for exercises and checking ---------------------------------------
@@ -51,7 +52,7 @@ options(tutorial.event_recorder = new_recorder)
 ## Test
 
 ```{r test}
-note("Hello, worldhh")
+ex("Hello, worl ebr gen tb eg4e vthr nteg thn g4tymn hbv erbntb ev btnybgve nmytnhbg rvfbny b4ntrhy jhdh v 4b35h \n Hello")
 ```
 
 ```{r ex1, exercise=TRUE, eval=FALSE}
