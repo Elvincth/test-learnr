@@ -11,7 +11,7 @@ vlab:
 
 ### topic_viewed
 
-Trigger when the user viewed a new topic
+Trigger when the user viewed a topic
 
 similar with ```section_view``` event 
 
